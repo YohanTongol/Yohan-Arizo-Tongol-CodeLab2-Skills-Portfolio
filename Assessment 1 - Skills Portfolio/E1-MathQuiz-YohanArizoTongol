@@ -1,0 +1,70 @@
+from tkinter import *
+import tkinter as tk
+ #This is to create a page break
+import random
+root = Tk()
+root.title("Math Quiz")
+root.geometry('600x600')
+root.config(bg="#F3EBC2")#Placeholder
+
+def showp1():
+ page1.lift()
+def showp2():
+ page2.lift()
+
+page1=tk.Frame(root,bg="#F3EBC2")
+page1.place(x=0,y=0,relwidth=1,relheight=1) #This Creates seperate pages when buttons are clicked
+
+page2=tk.Frame(root,bg="#F3EBC2")
+page2.place(x=0,y=0,relwidth=1,relheight=1)
+
+page3=tk.Frame(root,bg="#F3EBC2")
+page3.place(x=0,y=0,relwidth=1,relheight=1)
+
+page4=tk.Frame(root,bg="#F3EBC2")
+page4.place(x=0,y=0,relwidth=1,relheight=1)
+
+#rng=random.randint(1,10)#Random number generator from geeks for geeks
+
+l1=Label(page1,text="Welcome to the Math Quiz!\nPlease Select a Difficulty",fg='white',bg='#234567',font=('Tahoma',24,'bold'))
+l1.place(x=100,y=50)
+
+border=Frame(page1, bg="#234567")
+border.place(x=0,y=150,width=600,height=4)
+
+def menu():
+ page1.lift()#This lifts the said pages up to the screen
+
+def easy():
+ page2.lift()
+
+def medium():
+ page3.lift()
+
+def hard():
+ page4.lift()
+
+def displayMenu():
+ b1 = Button(page1,text='Easy',fg='green',width=16,height=3,font=('Tahoma',16,'bold'),command=easy)#Command is to change page
+ b1.place(x=200,y=200)
+
+ b2 = Button(page1,text='Medium',fg='yellow',width=16,height=3,font=('Tahoma',16,'bold'))
+ b2.place(x=200,y=300)
+
+ b3 = Button(page1,text='Hard',fg='red',width=16,height=3,font=('Tahoma',16,'bold'))
+ b3.place(x=200,y=400)
+
+ b4 = Button(page1,text='Exit',fg='white',bg='Red',width=5,height=1,font=('Tahoma',8,'bold'),command=root.destroy)
+ b4.place(x=285,y=500)
+
+def displayProblem():
+ ll1=Label(page2,text="Question Testing")
+ ll1.place(x=100,y=100)
+ bb1=Button(page2,text="Go Back",command=menu)
+ bb1.place(x=100,y=200)
+ 
+ 
+showp1()
+displayProblem()
+displayMenu()
+root.mainloop()
