@@ -7,16 +7,13 @@ root.title("Math Quiz")
 root.geometry('600x600')
 root.config(bg="#F3EBC2")#Placeholder
 
-def showp1():
- page1.lift()
-def showp2():
- page2.lift()
+#Progress 2
 
 page1=tk.Frame(root,bg="#F3EBC2")
 page1.place(x=0,y=0,relwidth=1,relheight=1) #This Creates seperate pages when buttons are clicked
 
 page2=tk.Frame(root,bg="#F3EBC2")
-page2.place(x=0,y=0,relwidth=1,relheight=1)
+page2.place(x=0,y=0,relwidth=1,relheight=1) #tk.frame suggestion from Gemini
 
 page3=tk.Frame(root,bg="#F3EBC2")
 page3.place(x=0,y=0,relwidth=1,relheight=1)
@@ -48,23 +45,67 @@ def displayMenu():
  b1 = Button(page1,text='Easy',fg='green',width=16,height=3,font=('Tahoma',16,'bold'),command=easy)#Command is to change page
  b1.place(x=200,y=200)
 
- b2 = Button(page1,text='Medium',fg='yellow',width=16,height=3,font=('Tahoma',16,'bold'))
+ b2 = Button(page1,text='Medium',fg='yellow',width=16,height=3,font=('Tahoma',16,'bold'),command=medium)
  b2.place(x=200,y=300)
 
- b3 = Button(page1,text='Hard',fg='red',width=16,height=3,font=('Tahoma',16,'bold'))
+ b3 = Button(page1,text='Hard',fg='red',width=16,height=3,font=('Tahoma',16,'bold'),command=hard)
  b3.place(x=200,y=400)
 
  b4 = Button(page1,text='Exit',fg='white',bg='Red',width=5,height=1,font=('Tahoma',8,'bold'),command=root.destroy)
  b4.place(x=285,y=500)
 
-def displayProblem():
- ll1=Label(page2,text="Question Testing")
- ll1.place(x=100,y=100)
+def displayeasy():
+ border=Frame(page2, bg="#234567")
+ border.place(x=0,y=150,width=600,height=4)
+ ll1=Label(page2,text="Easy Math Quiz",fg='white',bg='#234567',font=('Tahoma',24,'bold'))
+ score=int(0)
+ scoreholder=Label(page2,text=f"Score:{score}/10",fg="black",bg="#F3EBC2",font=("Tahoma",8,'bold'))
+ scoreholder.place(x=50,y=120)
+ ll1.place(x=100,y=50)
  bb1=Button(page2,text="Go Back",command=menu)
  bb1.place(x=100,y=200)
  
+
+def displaymed():
+ border=Frame(page3, bg="#234567")
+ border.place(x=0,y=150,width=600,height=4)
+ ll1=Label(page3,text="Moderate Math Quiz",fg='white',bg='#234567',font=('Tahoma',24,'bold'))
+ score=int(0)
+ scoreholder=Label(page3,text=f"Score:{score}/10",fg="black",bg="#F3EBC2",font=("Tahoma",8,'bold'))
+ scoreholder.place(x=50,y=120)
+ ll1.place(x=100,y=50)
+ bb1=Button(page3,text="Go Back",command=menu) #Try putting all these functions into one
+ bb1.place(x=100,y=200)
  
-showp1()
-displayProblem()
+
+def displayhard():
+ border=Frame(page4, bg="#234567")
+ border.place(x=0,y=150,width=600,height=4)
+ ll1=Label(page4,text="Advanced Math Quiz",fg='white',bg='#234567',font=('Tahoma',24,'bold'))
+ score=int(0)
+ scoreholder=Label(page4,text=f"Score:{score}/10",fg="black",bg="#F3EBC2",font=("Tahoma",8,'bold'))
+ scoreholder.place(x=50,y=120)
+ ll1.place(x=100,y=50)
+ bb1=Button(page4,text="Go Back",command=menu)
+ bb1.place(x=100,y=200)
+
+def displayProblem():
+  test
+
+def decideOperation():
+ test
+
+def displayResults():
+ if score >= 3:
+  print("Test")
+ else:
+  print("Test end")
+
+
+
+menu()
+displaymed()
+displayhard()
+displayeasy()
 displayMenu()
 root.mainloop()
