@@ -1,0 +1,21 @@
+from tkinter import *
+
+root =Tk()
+root.title("Alexa Jokes")
+root.geometry("600x600")
+root.config(bg="#F5F3EB")
+
+Jokes={
+    "J1":{"joke":"Jokehere"},
+    "J2":{"joke2":"jokehere2"}
+}
+
+l1=Label(root,text="Alexa, Tell me a Joke!",fg=("#43BBEB"),bg=("#F5F3EB"),font=("Tahoma",24,'bold'))
+l1.place(x=100,y=50)
+
+l2=Label(root,text="Alexa is feeling humurous",fg=("black"),bg=("#F5F3EB"),font=("Tahoma",24,'bold'))
+l2.place(x=100,y=80)
+
+
+
+root.mainloop()
