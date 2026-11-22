@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 import tkinter as tk
  #This is to create a page break
 import random
@@ -7,7 +8,7 @@ root.title("Math Quiz")
 root.geometry('600x600')
 root.config(bg="#F3EBC2")
 
-#Progress 4
+#Progress Semi Complete
 
 
 page1=tk.Frame(root,bg="#F3EBC2")
@@ -27,19 +28,32 @@ def menu():
  page1.lift()#This lifts the said pages up to the screen
 
 def easy():
+ global difficultymode
+ difficultymode = "easy"
+ displayeasy()
  page2.lift()
 
 def medium():
+ global difficultymode
+ difficultymode = "medium"
+ displaymed()
  page3.lift()
 
 def hard():
+ global difficultymode
+ difficultymode = "hard"
+ displayhard()
  page4.lift()
 
 #rng=random.randint(1,10)#Random number generator from geeks for geeks
 l1=Label(page1,text="Welcome to the Math Quiz!\nPlease Select a Difficulty",fg='white',bg='#234567',font=('Tahoma',24,'bold'))
 l1.place(x=100,y=50)
+
+#varibles for question counting and score handling
 score = 0
 tries = 0
+questionc=0
+difficultymode = 'easy' #Gemini Suggestion
 
 border=Frame(page1, bg="#234567")
 border.place(x=0,y=150,width=600,height=4)
@@ -48,7 +62,7 @@ def displayMenu():
  b1 = Button(page1,text='Easy',fg='green',width=16,height=3,font=('Tahoma',16,'bold'),command=easy)#Command is to change page
  b1.place(x=200,y=200)
 
- b2 = Button(page1,text='Medium',fg='yellow',width=16,height=3,font=('Tahoma',16,'bold'),command=medium)
+ b2 = Button(page1,text='Medium',fg="#97A709",width=16,height=3,font=('Tahoma',16,'bold'),command=medium)
  b2.place(x=200,y=300)
 
  b3 = Button(page1,text='Hard',fg='red',width=16,height=3,font=('Tahoma',16,'bold'),command=hard)
@@ -59,20 +73,20 @@ def displayMenu():
 
 
 def displayeasy():
+ global score, tries,question, questionc, scoreholder,useranswer, feedback, submit
+ score = 0
+ tries = 0
+ questionc = 0
+
  border=Frame(page2, bg="#234567")
  ll1=Label(page2,text="Easy Math Quiz",fg='white',bg='#234567',font=('Tahoma',24,'bold'))
  question=Label(page2,text=f"{n1} {operation} {n2}",fg='black',bg="#F3EBC2",font=('Tahoma',24,'bold'))
  scoreholder=Label(page2,text=f"Score:{score}/10",fg="black",bg="#F3EBC2",font=("Tahoma",8,'bold'))
  bb1=Button(page2,text="Go Back",command=menu)
 
- global useranswer
  useranswer = Entry(page2)
-
- global feedback
- feedback=Label(page2,text="Hey",fg='black',bg="#F3EBC2",font=('Tahoma',8))
-
- global submit
- submit=Button(page2,text="Submit",command=lambda:submitbutton(useranswer,feedback,correct))
+ feedback=Label(page2,text="",fg='black',bg="#F3EBC2",font=('Tahoma',8))
+ submit=Button(page2,text="Submit",command=lambda:submitbutton(useranswer,feedback))
 
 
  submit.place(x=180,y=400)
@@ -84,24 +98,24 @@ def displayeasy():
  bb1.place(x=100,y=500)
  feedback.place(x=180,y=350)
 
- 
- 
+ nextQuestion()
+
  
 def displaymed():
+ global score, tries,question, questionc, scoreholder,useranswer, feedback, submit
+ score = 0
+ tries = 0
+ questionc = 0
+
  border=Frame(page3, bg="#234567")
  ll1=Label(page3,text="Moderate Math Quiz",fg='white',bg='#234567',font=('Tahoma',24,'bold'))
  question=Label(page3,text=f"{nm1} {operation} {nm2}",fg='black',bg="#F3EBC2",font=('Tahoma',24,'bold'))
  scoreholder=Label(page3,text=f"Score:{score}/10",fg="black",bg="#F3EBC2",font=("Tahoma",8,'bold'))
  bb1=Button(page3,text="Go Back",command=menu) #Try putting all these functions into one
 
- global useranswer
  useranswer = Entry(page3)
- 
- global feedback
- feedback=Label(page3,text="Hey",fg='black',bg="#F3EBC2",font=('Tahoma',8))
- 
- global submit
- submit=Button(page3,text="Submit",command=lambda:submitbutton(useranswer,feedback,correct))
+ feedback=Label(page3,text="",fg='black',bg="#F3EBC2",font=('Tahoma',8))
+ submit=Button(page3,text="Submit",command=lambda:submitbutton(useranswer,feedback))
 
  submit.place(x=180,y=400)
  useranswer.place(x=180,y=320)
@@ -111,23 +125,24 @@ def displaymed():
  border.place(x=0,y=150,width=600,height=4)
  bb1.place(x=100,y=500)
  feedback.place(x=180,y=350)
+ nextQuestion()
  
 
 def displayhard():
+ global score, tries,question, questionc, scoreholder,useranswer, feedback, submit
+ score = 0
+ tries = 0
+ questionc = 0
  border=Frame(page4, bg="#234567")
  bb1=Button(page4,text="Go Back",command=menu)
  ll1=Label(page4,text="Advanced Math Quiz",fg='white',bg='#234567',font=('Tahoma',24,'bold'))
  question=Label(page4,text=f"{nh1} {operation} {nh2}",fg='black',bg="#F3EBC2",font=('Tahoma',24,'bold'))
  scoreholder=Label(page4,text=f"Score:{score}/10",fg="black",bg="#F3EBC2",font=("Tahoma",8,'bold'))
 
- global useranswer
+ 
  useranswer = Entry(page4)
-  
- global feedback
- feedback=Label(page4,text="Hey",fg='black',bg="#F3EBC2",font=('Tahoma',8))
-  
- global submit
- submit=Button(page4,text="Submit",command=lambda:submitbutton(useranswer,feedback,correct))
+ feedback=Label(page4,text="",fg='black',bg="#F3EBC2",font=('Tahoma',8))
+ submit=Button(page4,text="Submit",command=lambda:submitbutton(useranswer,feedback))
 
  submit.place(x=180,y=400)
  useranswer.place(x=180,y=320)
@@ -137,11 +152,12 @@ def displayhard():
  bb1.place(x=100,y=500)
  border.place(x=0,y=150,width=600,height=4)
  feedback.place(x=180,y=350)
+ nextQuestion()
 
-def displayProblem():
+def displayProblem(): #Randomizes number depending on difficulty 
   global n1, n2, correct, nm1, nm2, mcorrect, nh1, nh2, hcorrect
   decideOperation()
-  
+
   n1=random.randint(1,9)
   n2=random.randint(1,9)
   correct= n1 + n2 if operation =='+' else n1 - n2
@@ -160,40 +176,71 @@ def decideOperation():
 
 
 def displayResults():
-  if score >= 3:
-   print("Test")
-  else:
-   print("Test end")
+  useranswer.place_forget()
+  submit.place_forget()
 
-def submitbutton(useranswer,feedback,correct):
+  if score >=95:
+   grade = "Grade: A+"
+  elif score >=85:
+   grade = "Grade: A"
+  elif score >=75 :
+   grade = "Grade: C"
+  elif score>=65:
+   grade = "Grade: D"
+  else:
+   grade=" Grade: F (You Can Always Try Again!)"
+
+  messagebox.showinfo("Quiz Grade",f"Final Score: {score}/100\n {grade}")
+  
+
+def submitbutton(useranswer,feedback):
  global score, tries
+ difficultyanswer = correct if difficultymode == "easy" else (mcorrect if difficultymode == "medium" else hcorrect)
  try:
   answer = int(useranswer.get())
-  if answer == correct:
-   feedback.config(text="Answer is Correct!")
-   score += 1
+  if answer == difficultyanswer:
+   if tries == 0:
+    feedback.config(text="Answer is Correct!",fg="green")
+    score += 10
+   else:
+    score +=5
+    feedback.config(text="Second Chance Answer is Correct!",fg="#97A709")
+   nextQuestion()
 
   else:
    tries += 1
-   if tries <2:
-    feedback.config(text="Wrong answer Try again.")
+   if tries < 2:
+    feedback.config(text="Wrong answer Try again.",fg="black")
     useranswer.delete(0,END)
    else:
     feedback.config(text="Wrong Answer, Out of Tries. Next Question")
+    nextQuestion()
    
  except ValueError:
   feedback.config(text="Please enter your valid number")
 
+def nextQuestion():
+ global questionc, tries
+ scoreholder.config(text=f"Score:{score}/100")
+ if questionc>=10:
+   displayResults()
+   return
+ 
+ questionc += 1
+ tries = 0
+ useranswer.delete(0,END)
+ displayProblem()
 
-
-
-menu()
-
-decideOperation()
-displayProblem()
-displaymed()
-displayhard()
-displayeasy()
+ if difficultymode =="easy":
+  question.config(text=f"{questionc}. {n1} {operation} {n2}")
+ elif difficultymode == "medium":
+  question.config(text=f"{questionc}. {nm1} {operation} {nm2}")
+ else:
+  question.config(text=f"{questionc}. {nh1} {operation} {nh2}")
 
 displayMenu()
+menu()
+decideOperation()
+displayProblem()
+
 root.mainloop()
