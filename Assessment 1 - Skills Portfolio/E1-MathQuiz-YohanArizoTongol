@@ -7,7 +7,8 @@ root.title("Math Quiz")
 root.geometry('600x600')
 root.config(bg="#F3EBC2")#Placeholder
 
-#Progress 2
+#Progress 3 
+
 
 page1=tk.Frame(root,bg="#F3EBC2")
 page1.place(x=0,y=0,relwidth=1,relheight=1) #This Creates seperate pages when buttons are clicked
@@ -21,14 +22,6 @@ page3.place(x=0,y=0,relwidth=1,relheight=1)
 page4=tk.Frame(root,bg="#F3EBC2")
 page4.place(x=0,y=0,relwidth=1,relheight=1)
 
-#rng=random.randint(1,10)#Random number generator from geeks for geeks
-
-l1=Label(page1,text="Welcome to the Math Quiz!\nPlease Select a Difficulty",fg='white',bg='#234567',font=('Tahoma',24,'bold'))
-l1.place(x=100,y=50)
-
-border=Frame(page1, bg="#234567")
-border.place(x=0,y=150,width=600,height=4)
-
 def menu():
  page1.lift()#This lifts the said pages up to the screen
 
@@ -40,6 +33,25 @@ def medium():
 
 def hard():
  page4.lift()
+
+#rng=random.randint(1,10)#Random number generator from geeks for geeks
+
+l1=Label(page1,text="Welcome to the Math Quiz!\nPlease Select a Difficulty",fg='white',bg='#234567',font=('Tahoma',24,'bold'))
+l1.place(x=100,y=50)
+
+border=Frame(page1, bg="#234567")
+border.place(x=0,y=150,width=600,height=4)
+
+'''
+def submit():
+ try:
+   username = int(useranswer.get())
+ except ValueError:
+   feedback.config(text="Please Enter a Number")
+'''
+
+
+
 
 def displayMenu():
  b1 = Button(page1,text='Easy',fg='green',width=16,height=3,font=('Tahoma',16,'bold'),command=easy)#Command is to change page
@@ -56,14 +68,30 @@ def displayMenu():
 
 def displayeasy():
  border=Frame(page2, bg="#234567")
- border.place(x=0,y=150,width=600,height=4)
  ll1=Label(page2,text="Easy Math Quiz",fg='white',bg='#234567',font=('Tahoma',24,'bold'))
+ question=Label(page2,text=f"{n1} {operation} {n2}",fg='black',bg="#F3EBC2",font=('Tahoma',24,'bold'))
  score=int(0)
  scoreholder=Label(page2,text=f"Score:{score}/10",fg="black",bg="#F3EBC2",font=("Tahoma",8,'bold'))
- scoreholder.place(x=50,y=120)
- ll1.place(x=100,y=50)
  bb1=Button(page2,text="Go Back",command=menu)
- bb1.place(x=100,y=200)
+ global useranswer
+ useranswer = Entry(page2)
+ global feedback
+ feedback=Label(page2,text="Hey",fg='black',bg="#F3EBC2",font=('Tahoma',8))
+ global submit1
+ submit1=Button(page2,text="Submit",command=submitclick)
+
+
+ submit.place(x=180,y=400)
+ useranswer.place(x=180,y=320)
+ scoreholder.place(x=60,y=120)
+ border.place(x=0,y=150,width=600,height=4)
+ ll1.place(x=100,y=50)
+ question.place(x=180,y=270)
+ bb1.place(x=100,y=500)
+ feedback.place(x=180,y=350)
+
+ 
+ 
  
 
 def displaymed():
@@ -90,22 +118,42 @@ def displayhard():
  bb1.place(x=100,y=200)
 
 def displayProblem():
-  test
+  global n1
+  n1=random.randint(1,9)
+  global n2
+  n2=random.randint(1,9)
+  global operation
+  #operation = random.choice('+''-')
+  global correct 
+  correct= n1 + n2 if operation =='+' else n1 - n2
+
 
 def decideOperation():
- test
+ global operation
+ operation = random.choice('+''-')
+
 
 def displayResults():
- if score >= 3:
-  print("Test")
+  if score >= 3:
+   print("Test")
+  else:
+   print("Test end")
+
+def submitclick():
+ if useranswer == correct:
+  feedback.config(text="Answer is Correct!")
  else:
-  print("Test end")
+  feedback.config(text="Wrong answer Try again.")
+
 
 
 
 menu()
+decideOperation()
+displayProblem()
 displaymed()
 displayhard()
 displayeasy()
+submitclick()
 displayMenu()
 root.mainloop()
