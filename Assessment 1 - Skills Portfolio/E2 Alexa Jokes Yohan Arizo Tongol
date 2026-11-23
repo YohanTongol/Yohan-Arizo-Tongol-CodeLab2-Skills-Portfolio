@@ -1,12 +1,16 @@
 from tkinter import *
 import os
 import random
+import tkinter as tk
 root =Tk()
 root.title("Alexa Jokes")
-root.geometry("600x600")
+root.geometry("600x400")
 root.config(bg="#F5F3EB")
 
-#Progress 2
+border=Frame(root, bg="#234567")
+border.place(x=0,y=100,width=600,height=4)
+
+#Progress 3
 
 def jokelist():
     alexajokes=[]
@@ -16,9 +20,9 @@ def jokelist():
     with open(filelocation,"r", encoding="utf-8") as joker: #utf-8 is used here to enable the computer to read dashes
         for line in joker:
             fix=line.strip()
-            if "?" in fix:
-                setup,punchline=line("?",1)
-                alexajokes.append(setup.strip()+"?",punchline.strip())  
+            if "?" in fix: #checks if there is a question mark in the file to seperate jokes from punchlines
+                setup,punchline=fix.split("?",1)
+                alexajokes.append((setup.strip()+"?",punchline.strip()))
     return alexajokes
 
 jokes = jokelist()
@@ -26,32 +30,40 @@ j =""
 p =""
 
 #display jokes, punchline and buttons here
-def jokedisplay():
+def jokedisplay(): #holds variables with the random jokes to display and resets punchline
     global j, p
-    j,p=random.choice(jokelist)
+    j,p=random.choice(jokes)
     jokeloc.config(text=j)
     punchlineloc.config(text="")
+   
+
+def punchlinedisplay():#button for displaying punchline
+    punchlineloc.config(text=p)
+
+def nextjoke():#displays next joke and resets punchline
+    punchlineloc.config(text="")
+    punchlineb.place_forget()
+    jokedisplay()
 
 
 
 
 #all labels and displays here
 l1=Label(root,text="Alexa, Tell me a Joke!",fg=("#43BBEB"),bg=("#F5F3EB"),font=("Tahoma",24,'bold'))
-l1.place(x=100,y=50)
+jokeloc=Label(root,text="Alexa is feeling humurous",fg=("black"),bg=("#F5F3EB"),font=("Tahoma",12,'bold'))
+punchlineloc=Label(root,text="",fg=("BLack"),bg=("#F5F3EB"),font=("Tahoma",12,'bold'))
 
-jokeloc=Label(root,text="Alexa is feeling humurous",fg=("black"),bg=("#F5F3EB"),font=("Tahoma",24,'bold'))
-jokeloc.place(x=100,y=120)
+jokeb=Button(root,text="Alexa tell me a joke",width=15,height=2,command=jokedisplay)
 
-punchlineloc=Label(root,text=""),fg=("BLack"),bg=("#F5F3EB"),font=("Tahoma",16,'bold')
+punchlineb=Button(root,text="Punchline",width=15,height=2,command=punchlinedisplay)
 
-jokeb=Button(root,text="Alexa tell me a joke.",command=jokedisplay)
+nextb=Button(root,text="Next Joke Alexa!",command=nextjoke)
 
-punchlineb=Button(root,text="Punchline",)
-
-next=Button(root,text="Next Joke Alexa!",)
-
-
-
+jokeloc.place(x=70,y=120)
+l1.place(x=130,y=50)
+jokeb.place(x=150,y=220)
+punchlineloc.place(x=70,y=150)
+punchlineb.place(x=350,y=220)
 
 
 root.mainloop()
