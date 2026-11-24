@@ -8,19 +8,19 @@ root.title("Math Quiz")
 root.geometry('600x600')
 root.config(bg="#F3EBC2")
 
-#Progress Semi Complete
+#Progress Semi Final
 
 
-page1=tk.Frame(root,bg="#F3EBC2")
+page1=tk.Frame(root,bg="#481676")
 page1.place(x=0,y=0,relwidth=1,relheight=1) #This Creates seperate pages when buttons are clicked
 
-page2=tk.Frame(root,bg="#F3EBC2")
+page2=tk.Frame(root,bg="#481676")
 page2.place(x=0,y=0,relwidth=1,relheight=1) #tk.frame suggestion from Gemini
 
-page3=tk.Frame(root,bg="#F3EBC2")
+page3=tk.Frame(root,bg="#481676")
 page3.place(x=0,y=0,relwidth=1,relheight=1)
 
-page4=tk.Frame(root,bg="#F3EBC2")
+page4=tk.Frame(root,bg="#481676")
 page4.place(x=0,y=0,relwidth=1,relheight=1)
 
 
@@ -46,7 +46,7 @@ def hard():
  page4.lift()
 
 #rng=random.randint(1,10)#Random number generator from geeks for geeks
-l1=Label(page1,text="Welcome to the Math Quiz!\nPlease Select a Difficulty",fg='white',bg='#234567',font=('Tahoma',24,'bold'))
+l1=Label(page1,text="Welcome to the Math Quiz!\nPlease Select a Difficulty",fg='white',bg='#8230CF',font=('Tahoma',24,'bold'))
 l1.place(x=100,y=50)
 
 #varibles for question counting and score handling
@@ -55,17 +55,19 @@ tries = 0
 questionc=0
 difficultymode = 'easy' #Gemini Suggestion
 
-border=Frame(page1, bg="#234567")
-border.place(x=0,y=150,width=600,height=4)
+border=Frame(page1, bg="#D3A240")
+border2=Frame(page1,bg="white")
+border2.place(x=0,y=150,width=600,height=4)
+border.place(x=50,y=180,width=510,height=350)
 
 def displayMenu():
- b1 = Button(page1,text='Easy',fg='green',width=16,height=3,font=('Tahoma',16,'bold'),command=easy)#Command is to change page
+ b1 = Button(page1,text='Easy',fg="#FFFB00",bg="#4BC47B",width=16,height=3,font=('Tahoma',16,'bold'),command=easy)#Command is to change page
  b1.place(x=200,y=200)
 
- b2 = Button(page1,text='Medium',fg="#97A709",width=16,height=3,font=('Tahoma',16,'bold'),command=medium)
+ b2 = Button(page1,text='Moderate',fg="#FFE93F",bg="#A66EFF",width=16,height=3,font=('Tahoma',16,'bold'),command=medium)
  b2.place(x=200,y=300)
 
- b3 = Button(page1,text='Hard',fg='red',width=16,height=3,font=('Tahoma',16,'bold'),command=hard)
+ b3 = Button(page1,text='Advanced',fg='#FFE93F',bg="#F17FBA",width=16,height=3,font=('Tahoma',16,'bold'),command=hard)
  b3.place(x=200,y=400)
 
  b4 = Button(page1,text='Exit',fg='white',bg='Red',width=5,height=1,font=('Tahoma',8,'bold'),command=root.destroy)
@@ -78,25 +80,28 @@ def displayeasy():
  tries = 0
  questionc = 0
 
- border=Frame(page2, bg="#234567")
- ll1=Label(page2,text="Easy Math Quiz",fg='white',bg='#234567',font=('Tahoma',24,'bold'))
- question=Label(page2,text=f"{n1} {operation} {n2}",fg='black',bg="#F3EBC2",font=('Tahoma',24,'bold'))
- scoreholder=Label(page2,text=f"Score:{score}/10",fg="black",bg="#F3EBC2",font=("Tahoma",8,'bold'))
- bb1=Button(page2,text="Go Back",command=menu)
+ border=Frame(page2, bg="#D3A240")
+ border2=Frame(page2,bg="white")
+ ll1=Label(page2,text="Easy Math Quiz",fg='white',bg="#8230CF",font=('Tahoma',24,'bold'))
+ question=Label(page2,text=f"{n1} {operation} {n2}",fg='black',bg="#F3EBC2",font=('Tahoma',32,'bold'))
+ scoreholder=Label(page2,text=f"Score:{score}/100",fg="black",bg="#F3EBC2",font=("Tahoma",12,'bold'))
+ bb1=Button(page2,text="Go Back",bg="white",width=10,height=1,command=menu)
 
- useranswer = Entry(page2)
- feedback=Label(page2,text="",fg='black',bg="#F3EBC2",font=('Tahoma',8))
- submit=Button(page2,text="Submit",command=lambda:submitbutton(useranswer,feedback))
+ #Everythin below here and for every display difficulty handles useranswer
+ useranswer = Entry(page2,font=(32))
+ feedback=Label(page2,text="",fg='black',bg="#D3A240",font=('Tahoma',8))
+ submit=Button(page2,text="Submit",width=10,height=2,command=lambda:submitbutton(useranswer,feedback))
 
 
- submit.place(x=180,y=400)
- useranswer.place(x=180,y=320)
- scoreholder.place(x=60,y=120)
- border.place(x=0,y=150,width=600,height=4)
- ll1.place(x=100,y=50)
- question.place(x=180,y=270)
- bb1.place(x=100,y=500)
- feedback.place(x=180,y=350)
+ submit.place(x=270,y=380)
+ useranswer.place(x=220,y=330)
+ scoreholder.place(x=260,y=120)
+ border2.place(x=0,y=150,width=600,height=4)
+ border.place(x=50,y=180,width=510,height=350)
+ ll1.place(x=190,y=50)
+ question.place(x=225,y=260)
+ bb1.place(x=100,y=480)
+ feedback.place(x=265,y=360)
 
  nextQuestion()
 
@@ -107,24 +112,26 @@ def displaymed():
  tries = 0
  questionc = 0
 
- border=Frame(page3, bg="#234567")
- ll1=Label(page3,text="Moderate Math Quiz",fg='white',bg='#234567',font=('Tahoma',24,'bold'))
+ border=Frame(page3, bg="#D3A240")
+ border2=Frame(page3,bg="white")
+ ll1=Label(page3,text="Moderate Math Quiz",fg='white',bg='#8230CF',font=('Tahoma',24,'bold'))
  question=Label(page3,text=f"{nm1} {operation} {nm2}",fg='black',bg="#F3EBC2",font=('Tahoma',24,'bold'))
- scoreholder=Label(page3,text=f"Score:{score}/10",fg="black",bg="#F3EBC2",font=("Tahoma",8,'bold'))
- bb1=Button(page3,text="Go Back",command=menu) #Try putting all these functions into one
+ scoreholder=Label(page3,text=f"Score:{score}/100",fg="black",bg="#F3EBC2",font=("Tahoma",12,'bold'))
+ bb1=Button(page3,text="Go Back",width=10,height=1,command=menu) #Try putting all these functions into one
 
- useranswer = Entry(page3)
- feedback=Label(page3,text="",fg='black',bg="#F3EBC2",font=('Tahoma',8))
- submit=Button(page3,text="Submit",command=lambda:submitbutton(useranswer,feedback))
+ useranswer = Entry(page3,font=(32))
+ feedback=Label(page3,text="",fg='black',bg="#D3A240",font=('Tahoma',8))
+ submit=Button(page3,text="Submit",width=10,height=2,command=lambda:submitbutton(useranswer,feedback))
 
- submit.place(x=180,y=400)
- useranswer.place(x=180,y=320)
- question.place(x=180,y=270)
- scoreholder.place(x=50,y=120)
- ll1.place(x=100,y=50)
- border.place(x=0,y=150,width=600,height=4)
- bb1.place(x=100,y=500)
- feedback.place(x=180,y=350)
+ submit.place(x=270,y=380)
+ useranswer.place(x=210,y=330)
+ scoreholder.place(x=250,y=120)
+ border2.place(x=0,y=150,width=600,height=4)
+ border.place(x=50,y=180,width=510,height=350)
+ ll1.place(x=150,y=50)
+ question.place(x=220,y=270)
+ bb1.place(x=100,y=480)
+ feedback.place(x=265,y=360)
  nextQuestion()
  
 
@@ -133,25 +140,28 @@ def displayhard():
  score = 0
  tries = 0
  questionc = 0
- border=Frame(page4, bg="#234567")
- bb1=Button(page4,text="Go Back",command=menu)
- ll1=Label(page4,text="Advanced Math Quiz",fg='white',bg='#234567',font=('Tahoma',24,'bold'))
+
+ border=Frame(page4, bg="#D3A240")
+ border2=Frame(page4,bg="white")
+ bb1=Button(page4,text="Go Back",width=10,height=1,command=menu)
+ ll1=Label(page4,text="Advanced Math Quiz",fg='white',bg='#8230CF',font=('Tahoma',24,'bold'))
  question=Label(page4,text=f"{nh1} {operation} {nh2}",fg='black',bg="#F3EBC2",font=('Tahoma',24,'bold'))
- scoreholder=Label(page4,text=f"Score:{score}/10",fg="black",bg="#F3EBC2",font=("Tahoma",8,'bold'))
+ scoreholder=Label(page4,text=f"Score:{score}/100",fg="black",bg="#F3EBC2",font=("Tahoma",12,'bold'))
 
  
- useranswer = Entry(page4)
- feedback=Label(page4,text="",fg='black',bg="#F3EBC2",font=('Tahoma',8))
- submit=Button(page4,text="Submit",command=lambda:submitbutton(useranswer,feedback))
+ useranswer = Entry(page4,font=(32))
+ feedback=Label(page4,text="",fg='black',bg="#D3A240",font=('Tahoma',8))
+ submit=Button(page4,text="Submit",width=10,height=2,command=lambda:submitbutton(useranswer,feedback))
 
- submit.place(x=180,y=400)
- useranswer.place(x=180,y=320)
- question.place(x=180,y=270)
- scoreholder.place(x=50,y=120)
- ll1.place(x=100,y=50)
- bb1.place(x=100,y=500)
- border.place(x=0,y=150,width=600,height=4)
- feedback.place(x=180,y=350)
+ submit.place(x=270,y=380)
+ useranswer.place(x=210,y=330)
+ scoreholder.place(x=250,y=120)
+ border2.place(x=0,y=150,width=600,height=4)
+ border.place(x=50,y=180,width=510,height=350)
+ ll1.place(x=150,y=50)
+ question.place(x=200,y=270)
+ bb1.place(x=100,y=480)
+ feedback.place(x=265,y=360)
  nextQuestion()
 
 def displayProblem(): #Randomizes number depending on difficulty 
@@ -181,12 +191,12 @@ def displayResults():
 
   if score >=95:
    grade = "Grade: A+"
-  elif score >=85:
+  elif score >=90:
    grade = "Grade: A"
-  elif score >=75 :
+  elif score >=85 :
+   grade = "Grade: B"
+  elif score>=75:
    grade = "Grade: C"
-  elif score>=65:
-   grade = "Grade: D"
   else:
    grade=" Grade: F (You Can Always Try Again!)"
 
@@ -204,16 +214,19 @@ def submitbutton(useranswer,feedback):
     score += 10
    else:
     score +=5
-    feedback.config(text="Second Chance Answer is Correct!",fg="#97A709")
+    feedback.config(text="Chance Answer is Correct!",fg="#97A709")
+    feedback.place(x=256)
    nextQuestion()
 
   else:
    tries += 1
    if tries < 2:
     feedback.config(text="Wrong answer Try again.",fg="black")
+    feedback.place(x=245)
     useranswer.delete(0,END)
    else:
-    feedback.config(text="Wrong Answer, Out of Tries. Next Question")
+    feedback.config(text="Wrong Answer, Out of Tries. Next Question",)
+    feedback.place(x=210)
     nextQuestion()
    
  except ValueError:
@@ -221,6 +234,7 @@ def submitbutton(useranswer,feedback):
 
 def nextQuestion():
  global questionc, tries
+ useranswer.focus() #Suggestion from Gemini. Instantly focuses user typing to the textbox without having to manually press
  scoreholder.config(text=f"Score:{score}/100")
  if questionc>=10:
    displayResults()
@@ -232,15 +246,17 @@ def nextQuestion():
  displayProblem()
 
  if difficultymode =="easy":
-  question.config(text=f"{questionc}. {n1} {operation} {n2}")
+  question.config(text=f"{questionc}.  {n1} {operation} {n2}")
  elif difficultymode == "medium":
-  question.config(text=f"{questionc}. {nm1} {operation} {nm2}")
+  question.config(text=f"{questionc}.  {nm1} {operation} {nm2}")
  else:
-  question.config(text=f"{questionc}. {nh1} {operation} {nh2}")
+  question.config(text=f"{questionc}.  {nh1} {operation} {nh2}")
 
+displayProblem()
 displayMenu()
 menu()
 decideOperation()
-displayProblem()
+
+
 
 root.mainloop()
