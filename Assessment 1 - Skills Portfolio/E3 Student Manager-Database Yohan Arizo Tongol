@@ -1,11 +1,51 @@
 from tkinter import *
-
+import random
 root =Tk()
 root.title("Student Manager/Database")
 root.geometry("600x600")
 root.config(bg="#F3EBC2")
 
-l1=Label(root,text="Students Please")
-l1.place(x=100,y=50)
+#Progress 2
+
+l1=Label(root,text="Students Database",font=("Tahoma",24),bg="#F3EBC2")
+info=Label(root,text="Information Goes Here")
+info.place(x=330,y=130)
+l1.place(x=170,y=50)
+
+students={ #Dictionary containing all the information of the students to be displayed
+    1345:{"name":"John Curry","marks":[8,15,7],"total":45},
+2345:{"name":"Sam Sturtivant","marks":[14,15,14],"total":77},
+9876:{"name":"Lee Scott","marks":[17,11,16],"total":99},
+3724:{"name":"Matt Thompson","marks":[19,11,15],"total":81},
+1212:{"name":"Ron Herrema","marks":[14,17,18],"total":66},
+8439:{"name":"Jake Hobbs","marks":[10,11,10],"total":43},
+2344:{"name":"Jo Hyde","marks":[6,15,10],"total":55},
+9384:{"name":"Gareth Southgate","marks":[5,6,8],"total":33},
+8327:{"name":"Alan Shearer","marks":[20,20,20],"total":100},
+2983:{"name":"Les Ferdinand","marks":[15,17,18],"total":92}
+}
+
+def viewallfunc(): #The function responsible for viewing all student records
+    list=[] #A list to store/display student records
+    for stid,data in students.items():#for loop to go over all students
+        marksstr=", ".join(str(m) for m in data["marks"])
+        list.append(f"{stid} - {data["name"]} |  Marks: [{marksstr}] |  Total: {data["total"]}") #Appends all the student data in the list
+    info.config(text="\n".join(list),font=("Tahoma",10))#Creates a break which then joins to the list to display vertically
+    info.place(x=240)
+
+
+#All Buttons and Labels here
+viewall=Button(root,text="All Student Records",width=25,command=viewallfunc)
+viewindv=Button(root,text="Individual Student Records",width=25)
+shigh=Button(root,text="Students With Highest Total Score",width=25)
+slow=Button(root,text="Students With Lowest Total Score",width=25)
+
+viewall.place(x=10,y=120)
+viewindv.place(x=10,y=160)
+shigh.place(x=10,y=200)
+slow.place(x=10,y=240)
+
+
+
 
 root.mainloop()
