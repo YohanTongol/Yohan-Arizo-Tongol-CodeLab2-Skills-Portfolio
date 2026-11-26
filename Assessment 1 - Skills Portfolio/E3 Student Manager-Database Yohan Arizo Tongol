@@ -1,29 +1,37 @@
 from tkinter import *
-import random
+import tkinter as tk
 root =Tk()
 root.title("Student Manager/Database")
 root.geometry("600x600")
 root.config(bg="#F3EBC2")
 
-#Progress 2
+#Progress 3
 
 l1=Label(root,text="Students Database",font=("Tahoma",24),bg="#F3EBC2")
 info=Label(root,text="Information Goes Here")
+border=Frame(root, bg="black",width=600,height=4)
+feedback=Label(root,text="info")
+
+border.place(x=0,y=350)
 info.place(x=330,y=130)
 l1.place(x=170,y=50)
 
-students={ #Dictionary containing all the information of the students to be displayed
-    1345:{"name":"John Curry","marks":[8,15,7],"total":45},
-2345:{"name":"Sam Sturtivant","marks":[14,15,14],"total":77},
-9876:{"name":"Lee Scott","marks":[17,11,16],"total":99},
-3724:{"name":"Matt Thompson","marks":[19,11,15],"total":81},
-1212:{"name":"Ron Herrema","marks":[14,17,18],"total":66},
-8439:{"name":"Jake Hobbs","marks":[10,11,10],"total":43},
-2344:{"name":"Jo Hyde","marks":[6,15,10],"total":55},
-9384:{"name":"Gareth Southgate","marks":[5,6,8],"total":33},
-8327:{"name":"Alan Shearer","marks":[20,20,20],"total":100},
-2983:{"name":"Les Ferdinand","marks":[15,17,18],"total":92}
-}
+
+def textfile(filename="studentMarks.txt"):#function to open textfile from computer to store in a dictionary
+    students={}
+    with open(filename,"r") as file: #txt file to dictionary was suggested by Gemini AI
+        for line in file:
+            line=line.strip()
+            if not line:
+                continue
+            parts = line.split(",")
+            stid=int(parts[0])
+            name=parts[1]
+            marks=[int(parts[2]), int(parts[3]), int(parts[4])]
+            total=int(parts[5])
+            students[stid]={"name": name, "marks":marks,"total":total}
+    return students
+students = textfile()
 
 def viewallfunc(): #The function responsible for viewing all student records
     list=[] #A list to store/display student records
@@ -34,14 +42,49 @@ def viewallfunc(): #The function responsible for viewing all student records
     info.place(x=240)
 
 
+def indivfunc():#This function is responsible for looking up students using their ids and Entry box
+    userinput=userentry.get().strip()
+    if not userinput.isdigit():#if user input is not a digit string, it will configure a label to notify the user
+        feedback.config(text="Please Enter A Student Number ID")
+        return
+
+    stid=int(userinput)
+    if stid not in students:#If the userinput is not in the students dictionary, it will configure the label once again
+        feedback.config(text="Student Not Found, Enter a different ID")
+        return
+      
+    data = students[stid]
+    info.config(text=f"ID: {stid}\n name:{data["name"]}\n ")#Displays the student based on the ID entered
+
+def highest():
+    hightotal=max(data["total"] for data in students.values()) #Finds the largest nnumber in the students dictionary based on the values
+    honors= [f"{data["name"]} ({stid}) - {data["total"]}"#creates the structure to display
+             for stid, data in students.items()
+             if data["total"] == hightotal]#loops and finds the highest total of a student to display
+    info.config(text="Student with the Highest Total Score:\n".join(honors))
+
+def lowest():
+    lowtotal=min(data["total"] for data in students.values())
+    lowscorer=[f"{data["name"]} ({stid}) - {data["total"]}"
+            for stid, data in students.items()
+            if data["total"] == lowtotal]#this loops and finds the lowest total of a student instead
+    info.config(text="Student with the Lowest Total Score:\n".join(lowscorer))
+            
+
+
 #All Buttons and Labels here
 viewall=Button(root,text="All Student Records",width=25,command=viewallfunc)
-viewindv=Button(root,text="Individual Student Records",width=25)
-shigh=Button(root,text="Students With Highest Total Score",width=25)
-slow=Button(root,text="Students With Lowest Total Score",width=25)
 
+viewindv=Button(root,text="Individual Student Records",width=25,command=indivfunc)
+userentry=Entry(root,font=(24))
+
+shigh=Button(root,text="Student With Highest Total Score",width=25,command=highest)
+slow=Button(root,text="Student With Lowest Total Score",width=25,command=lowest)
+
+userentry.place(x=300,y=400)
+feedback.place(x=300,y=500)
 viewall.place(x=10,y=120)
-viewindv.place(x=10,y=160)
+viewindv.place(x=10,y=450)#160
 shigh.place(x=10,y=200)
 slow.place(x=10,y=240)
 
