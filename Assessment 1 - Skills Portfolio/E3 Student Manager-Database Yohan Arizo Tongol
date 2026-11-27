@@ -1,21 +1,10 @@
 from tkinter import *
-import tkinter as tk
 root =Tk()
 root.title("Student Manager/Database")
 root.geometry("600x600")
 root.config(bg="#F3EBC2")
 
-#Progress Semi Final
-
-l1=Label(root,text="Students Database",font=("Tahoma",24),bg="#F3EBC2")
-info=Label(root,text="",bg="#F3EBC2")
-border=Frame(root, bg="black",width=600,height=4)
-feedback=Label(root,text="",bg="#F3EBC2")
-
-border.place(x=0,y=350)
-info.place(x=350,y=90)
-l1.place(x=170,y=50)
-
+#Progress Final
 
 def textfile(filename="studentMarks.txt"):#function to open textfile from computer to store in a dictionary
     students={}
@@ -24,29 +13,29 @@ def textfile(filename="studentMarks.txt"):#function to open textfile from comput
         for line in file:
             line=line.strip()
             if not line:
-                continue
+                continue #This skips empty lines
             parts = line.split(",")
             stid=int(parts[0])
             name=parts[1]
             marks=[int(parts[2]), int(parts[3]), int(parts[4])]
-            total=int(parts[5])
-            students[stid]={"name": name, "marks":marks,"total":total}
+            total=int(parts[5])#Gives each variable a part in the line and splits them using ","
+            students[stid]={"name": name, "marks":marks,"total":total}#Finalizes the dictionary
     return students
 students = textfile()
 
 def savefunc(filename="studentMarks.txt"):
     if not students: #prevents crashes
         return
-    with open(filename,"w") as update:
+    with open(filename,"w") as update:#opens the file and writes over it using "w"
         update.write(f"{len(students)}\n")
         for stid,data in students.items():
-            marksstr=",".join(str(m) for m in data ["marks"])
-            update.write(f"{stid},{data["name"]},{marksstr},{data["total"]}\n")
+            marksstr=",".join(str(m) for m in data ["marks"]) #Gemini AI suggestion to split each  marks neatly using ",". Displays marks based on user input
+            update.write(f"{stid},{data["name"]},{marksstr},{data["total"]}\n") #writes data within the dictionary upon calling the function
 #=========================File Functions Above=======================================
 
 '''
-The Following functions below have been guided with the use of Gemini AI.
-(viewallfunc, indivfunc,addstudent)
+The Following functions have been guided with the use of Gemini AI.
+(viewallfunc, indivfunc,addstudent,savefunc)
 The Prompts used were questions relating to topics within sololearn and lectures
 in order to structure the functionalities such as data handling and Higher-Order Functions
 
@@ -60,7 +49,6 @@ def viewallfunc(): #The function responsible for viewing all student records
         list.append(f"{stid} - {data["name"]} |  Marks: [{marksstr}] |  Total: {data["total"]}") #Appends all the student data in the list
     info.config(text="\n".join(list),font=("Tahoma",11),bg="white")#Creates a break which then joins to the list to display vertically
     info.place(x=200,y=120)
-
 
 def indivfunc():#This function is responsible for looking up students using their ids and Entry box
     userinput=userentry.get().strip()
@@ -100,8 +88,8 @@ def dscfunc():# Function responsible for sorting descending order with the use o
     for stid, data in declist:#Creates a list and variables to store into the list
         marksstr =",".join(str(m) for m in data["marks"])#marksstr joins the marks in the dictionary into once variable
         list.append(f"{stid} - {data["name"]} | Marks: [{marksstr}] | Total: {data["total"]}")
-    info.config(text="\n".join(list),font=("Tahoma",10))
-    info.place(x=240)
+    info.config(text="\n".join(list),font=("Tahoma",11),bg="white")
+    info.place(x=210,y=120)
                 
 def ascfunc():#Function responsible for ascending sorting, utilizes reverse=True to reverse the sorted syntax
     asclist=sorted(students.items(), key=lambda x: x[1]["total"],reverse=True) 
@@ -109,8 +97,8 @@ def ascfunc():#Function responsible for ascending sorting, utilizes reverse=True
     for stid, data in asclist:
         marksstr =",".join(str(m) for m in data["marks"])
         list.append(f"{stid} - {data["name"]} | Marks: [{marksstr}] | Total: {data["total"]}")
-    info.config(text="\n".join(list),font=("Tahoma",10))
-    info.place(x=240)
+    info.config(text="\n".join(list),font=("Tahoma",11),bg="white")
+    info.place(x=210,y=120)
 
 def addstudent():
     userinput=userentry1.get().strip()
@@ -130,10 +118,9 @@ def addstudent():
     if not sname or not orgmarks:
         feedback.config(text="Enter a name and proper 3 proper marks")
         return
-    students[stid] = {"name":sname, "marks":marks,"total": sum(orgmarks)}
-    savefunc()
+    students[stid] = {"name":sname, "marks":marks,"total": sum(orgmarks)}#Updates the dictionary using the user input variables
+    savefunc()#Function that saves into txt file
     feedback.config(text=f"Student {sname} has been added.")
-    viewallfunc
 
 def updstudent():
     userinput=userentry1.get().strip()
@@ -146,12 +133,12 @@ def updstudent():
     marks=userentry3.get().strip()
 
     if sname:
-        students[stid]["name"] = sname
+        students[stid]["name"] = sname #changes the student ID and name depending on user entry and checks if the user exists via student id and name
     if marks:
         orgmarks=[int(m.strip()) for m in marks.split(",") if m.strip().isdigit()]
         if orgmarks:
             students[stid]["marks"] = orgmarks
-            students[stid]["total"] = sum(orgmarks)
+            students[stid]["total"] = sum(orgmarks)#Adds all marks to get the total
     savefunc()
     feedback.config(text=f"Student Information has been Updated")
 
@@ -159,28 +146,35 @@ def updstudent():
 
 def delstudent():
     userinput = userentry1.get().strip()
-    if not userinput.isdigit() or int(userinput) not in students:
+    if not userinput.isdigit() or int(userinput) not in students: #checks for existing stdent id inside the students dictionary
         feedback.config(text="Enter an Existing ID for Deletion")
         return
     stid=int(userinput)
     del students[stid]
-    savefunc()
+    savefunc() #deletes student information and saves the function using del and savefunc()
     feedback.config(text="Student Has Been Deleted")
    
             
-
-
 #All Buttons and Labels here
-viewall=Button(root,text="All Student Records",width=25,command=viewallfunc)
-viewindv=Button(root,text="Individual Student Records",width=25,command=indivfunc)
-shigh=Button(root,text="Student With Highest Total Score",width=25,command=highest)
-slow=Button(root,text="Student With Lowest Total Score",width=25,command=lowest)
-dsc=Button(root,text="Sort Descending Order",width=25, command=dscfunc)
-asc=Button(root,text="Sort Ascending Order",width=25,command=ascfunc)
-addastudent=Button(root,text="Add Student",command=addstudent)
-updateastudent=Button(root,text="Update Student Info",command=updstudent)
-deleteastudent=Button(root,text="Delete Student",command=delstudent)
-
+viewall=Button(root,text="All Student Records",width=25,command=viewallfunc,bg="white")
+viewindv=Button(root,text="Search Student",width=15,command=indivfunc,bg="white")
+shigh=Button(root,text="Student With Highest Total Score",width=25,command=highest,bg="white")
+slow=Button(root,text="Student With Lowest Total Score",width=25,command=lowest,bg="white")
+dsc=Button(root,text="Sort Descending Order",width=25, command=dscfunc,bg="white")
+asc=Button(root,text="Sort Ascending Order",width=25,command=ascfunc,bg="white")
+addastudent=Button(root,text="Add Student",command=addstudent,bg="white",width=15)
+updateastudent=Button(root,text="Update Student Info",command=updstudent,bg="white")
+deleteastudent=Button(root,text="Delete Student",command=delstudent,bg="white")
+l1=Label(root,text="Students Database",font=("Tahoma",24),bg="#F3EBC2")
+info=Label(root,text="",bg="#F3EBC2")
+border=Frame(root, bg="black",width=600,height=3)
+border2=Frame(root, bg="black",width=600,height=3)
+feedback=Label(root,text="",bg="#F3EBC2")
+entryheader=Label(root,text="Student Configuration Area",bg="#F3EBC2",font=("Tahoma",12,"bold"))
+idlabel=Label(root,text="ID:",bg="#F3EBC2",font=("Tahoma",12,"bold"))
+indvid=Label(root,text="Search Student ID:",bg="#F3EBC2",font=("Tahoma",12))
+namelabel=Label(root,text="Name:",bg="#F3EBC2",font=("Tahoma",12,"bold"))
+markslabel=Label(root,text="Marks: eg: 10,10,10",bg="#F3EBC2",font=("Tahoma",12,"bold"))
 
 userentry=Entry(root,font=(24))
 userentry1=Entry(root,font=(12))
@@ -188,24 +182,29 @@ userentry2=Entry(root,font=(12))
 userentry3=Entry(root,font=(12))
 
 
+userentry.place(x=210,y=400)
+userentry1.place(x=10,y=500)
+userentry2.place(x=210,y=500)
+userentry3.place(x=405,y=500)
 
-userentry.place(x=220,y=400)
-userentry1.place(x=50,y=500)
-userentry2.place(x=250,y=500)
-userentry3.place(x=450,y=500)
-
-deleteastudent.place(x=350,y=520)
-updateastudent.place(x=200,y=520)
-addastudent.place(x=100, y=520)
+markslabel.place(x=420,y=470)
+namelabel.place(x=220,y=470)
+idlabel.place(x=20,y=470)
+indvid.place(x=70,y=400)
+entryheader.place(x=190,y=355)
+border.place(x=0,y=350)
+border2.place(x=0,y=530)
+info.place(x=350,y=90)
+l1.place(x=170,y=50)
+deleteastudent.place(x=450,y=550)
+updateastudent.place(x=250,y=550)
+addastudent.place(x=50, y=550)
 asc.place(x=10,y=240)
 dsc.place(x=10,y=280)
-feedback.place(x=280,y=380)
+feedback.place(x=230,y=440)
 viewall.place(x=10,y=120)
-viewindv.place(x=200,y=430)#160
+viewindv.place(x=420,y=395)#160
 shigh.place(x=10,y=160)
 slow.place(x=10,y=200)
-
-
-
 
 root.mainloop()
