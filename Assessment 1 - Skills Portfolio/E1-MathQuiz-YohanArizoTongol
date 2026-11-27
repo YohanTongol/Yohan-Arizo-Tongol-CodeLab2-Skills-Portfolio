@@ -8,14 +8,20 @@ root.title("Math Quiz")
 root.geometry('600x600')
 root.config(bg="#F3EBC2")
 
-#Progress Semi Final
+#Progress Final
+
+'''
+plus=Image.open("plus.png")
+p1=Label(root, image =plus)
+p1.place(x=50,y=50)
+'''
 
 
 page1=tk.Frame(root,bg="#481676")
 page1.place(x=0,y=0,relwidth=1,relheight=1) #This Creates seperate pages when buttons are clicked
 
 page2=tk.Frame(root,bg="#481676")
-page2.place(x=0,y=0,relwidth=1,relheight=1) #tk.frame suggestion from Gemini
+page2.place(x=0,y=0,relwidth=1,relheight=1) #tk.frame suggestion from Gemini to help build pages on top of one another
 
 page3=tk.Frame(root,bg="#481676")
 page3.place(x=0,y=0,relwidth=1,relheight=1)
@@ -27,11 +33,11 @@ page4.place(x=0,y=0,relwidth=1,relheight=1)
 def menu():
  page1.lift()#This lifts the said pages up to the screen
 
-def easy():
+def easy(): #======These Functions create the placeholders for each difficulty========
  global difficultymode
- difficultymode = "easy"
- displayeasy()
- page2.lift()
+ difficultymode = "easy"#Decides the difficulty of the question for submitbutton() functions to calculate the answer
+ displayeasy()#Displays the difficulty function
+ page2.lift()#Lifts the page up to the users screen
 
 def medium():
  global difficultymode
@@ -44,6 +50,7 @@ def hard():
  difficultymode = "hard"
  displayhard()
  page4.lift()
+#====================================================================================
 
 #rng=random.randint(1,10)#Random number generator from geeks for geeks
 l1=Label(page1,text="Welcome to the Math Quiz!\nPlease Select a Difficulty",fg='white',bg='#8230CF',font=('Tahoma',24,'bold'))
@@ -53,14 +60,14 @@ l1.place(x=100,y=50)
 score = 0
 tries = 0
 questionc=0
-difficultymode = 'easy' #Gemini Suggestion
+difficultymode = 'easy' #Gemini Suggestion for difficulty handling. It is automatically set to easy but changes depending on user button choice
 
 border=Frame(page1, bg="#D3A240")
 border2=Frame(page1,bg="white")
 border2.place(x=0,y=150,width=600,height=4)
 border.place(x=50,y=180,width=510,height=350)
 
-def displayMenu():
+def displayMenu():#Displays the main menu with difficulty buttons, each button is assigned their respective difficulty commands
  b1 = Button(page1,text='Easy',fg="#FFFB00",bg="#4BC47B",width=16,height=3,font=('Tahoma',16,'bold'),command=easy)#Command is to change page
  b1.place(x=200,y=200)
 
@@ -70,15 +77,15 @@ def displayMenu():
  b3 = Button(page1,text='Advanced',fg='#FFE93F',bg="#F17FBA",width=16,height=3,font=('Tahoma',16,'bold'),command=hard)
  b3.place(x=200,y=400)
 
- b4 = Button(page1,text='Exit',fg='white',bg='Red',width=5,height=1,font=('Tahoma',8,'bold'),command=root.destroy)
+ b4 = Button(page1,text='Exit',fg='white',bg='Red',width=5,height=1,font=('Tahoma',8,'bold'),command=root.destroy)#root.destroy closes the application on press
  b4.place(x=285,y=500)
 
-
+#Everything below here and for every display difficulty handles useranswer, difficulty questions and buttons=================
 def displayeasy():
  global score, tries,question, questionc, scoreholder,useranswer, feedback, submit
  score = 0
  tries = 0
- questionc = 0
+ questionc = 0 #These variables track the users scores,tries and questioncount for limitation and displaying in later on functions
 
  border=Frame(page2, bg="#D3A240")
  border2=Frame(page2,bg="white")
@@ -87,7 +94,6 @@ def displayeasy():
  scoreholder=Label(page2,text=f"Score:{score}/100",fg="black",bg="#F3EBC2",font=("Tahoma",12,'bold'))
  bb1=Button(page2,text="Go Back",bg="white",width=10,height=1,command=menu)
 
- #Everythin below here and for every display difficulty handles useranswer
  useranswer = Entry(page2,font=(32))
  feedback=Label(page2,text="",fg='black',bg="#D3A240",font=('Tahoma',8))
  submit=Button(page2,text="Submit",width=10,height=2,command=lambda:submitbutton(useranswer,feedback))
@@ -103,7 +109,7 @@ def displayeasy():
  bb1.place(x=100,y=480)
  feedback.place(x=265,y=360)
 
- nextQuestion()
+ nextQuestion()#Brings up the next question via function
 
  
 def displaymed():
@@ -159,37 +165,38 @@ def displayhard():
  border2.place(x=0,y=150,width=600,height=4)
  border.place(x=50,y=180,width=510,height=350)
  ll1.place(x=150,y=50)
- question.place(x=200,y=270)
+ question.place(x=190,y=270)
  bb1.place(x=100,y=480)
  feedback.place(x=265,y=360)
  nextQuestion()
+#======================================================================================================
 
 def displayProblem(): #Randomizes number depending on difficulty 
   global n1, n2, correct, nm1, nm2, mcorrect, nh1, nh2, hcorrect
-  decideOperation()
+  decideOperation() #Calls decide operation to decide either to use addition or subctraction user random number generator
 
   n1=random.randint(1,9)
   n2=random.randint(1,9)
-  correct= n1 + n2 if operation =='+' else n1 - n2
+  correct= n1 + n2 if operation =='+' else n1 - n2 #Decides the the correct answer for easy. randomizes numbers from 1 to 9
 
   nm1=random.randint(10,99)
   nm2=random.randint(10,99)
-  mcorrect = nm1 + nm2 if operation == '+' else nm1-nm2
+  mcorrect = nm1 + nm2 if operation == '+' else nm1-nm2 #Decides the answer for medium. randomizes numbers from 10 to 99
 
-  nh1=random.randint(100,999)
-  nh2=random.randint(100,999)
-  hcorrect = nh1 + nh2 if operation == '+' else nh1-nh2
+  nh1=random.randint(1000,9999)
+  nh2=random.randint(1000,9999)
+  hcorrect = nh1 + nh2 if operation == '+' else nh1-nh2 #Decides the answer for hard and randomizes numbers from 1000 to 9999
 
 def decideOperation():
  global operation
- operation = random.choice(['+','-'])
+ operation = random.choice(['+','-']) #chooses the operation randomly with random.choice
 
 
-def displayResults():
-  useranswer.place_forget()
+def displayResults():#Displays the user results and grade after the 10th question
+  useranswer.place_forget() #removes the submit and entry to stop quiz
   submit.place_forget()
 
-  if score >=95:
+  if score >=95: #If else statements to check user grade depending on their score
    grade = "Grade: A+"
   elif score >=90:
    grade = "Grade: A"
@@ -200,63 +207,61 @@ def displayResults():
   else:
    grade=" Grade: F (You Can Always Try Again!)"
 
-  messagebox.showinfo("Quiz Grade",f"Final Score: {score}/100\n {grade}")
+  messagebox.showinfo("Quiz Grade",f"Final Score: {score}/100\n {grade}") #displays a messagebox with the users grade
   
 
-def submitbutton(useranswer,feedback):
+def submitbutton(useranswer,feedback):#Function used on the submit button and takes user answer and display feedback as parameters
  global score, tries
- difficultyanswer = correct if difficultymode == "easy" else (mcorrect if difficultymode == "medium" else hcorrect)
- try:
+ difficultyanswer = correct if difficultymode == "easy" else (mcorrect if difficultymode == "medium" else hcorrect)# This line has been suggested by Gemini AI on how to clean up variable decision
+ try:#Try and except statement to ensure the user inputs integers
   answer = int(useranswer.get())
-  if answer == difficultyanswer:
+  if answer == difficultyanswer: #The following if else statements checks the user answer if they have answered in 1 try or not
    if tries == 0:
     feedback.config(text="Answer is Correct!",fg="green")
-    score += 10
+    score += 10 #Gives a +10 if the user answers first try and +5 if not
    else:
     score +=5
-    feedback.config(text="Chance Answer is Correct!",fg="#97A709")
+    feedback.config(text="Chance Answer is Correct!",fg="Green")
     feedback.place(x=256)
-   nextQuestion()
+   nextQuestion()#displays next question right after
 
   else:
-   tries += 1
+   tries += 1 #adds one try if the user gets the answer wrong one time
    if tries < 2:
     feedback.config(text="Wrong answer Try again.",fg="black")
     feedback.place(x=245)
-    useranswer.delete(0,END)
+    useranswer.delete(0,END)#.delete(0,END) ensures that the entry characters have been deleting from start to end
    else:
     feedback.config(text="Wrong Answer, Out of Tries. Next Question",)
     feedback.place(x=210)
-    nextQuestion()
+    nextQuestion() #if the user reaches 2 tries, the nextQuestion function will run and display wrong answer. Awards the user no scores
    
  except ValueError:
-  feedback.config(text="Please enter your valid number")
+  feedback.config(text="Please enter your valid number")#If anything but a number has been inputed this error will display
 
 def nextQuestion():
  global questionc, tries
  useranswer.focus() #Suggestion from Gemini. Instantly focuses user typing to the textbox without having to manually press
- scoreholder.config(text=f"Score:{score}/100")
+ scoreholder.config(text=f"Score:{score}/100") #Upon going to the next question, this config will display the users score currently
  if questionc>=10:
-   displayResults()
+   displayResults()#If the user has reached 10 questions their final score will display
    return
  
  questionc += 1
- tries = 0
+ tries = 0 #Every next question will add to the question counter and reset the tries
  useranswer.delete(0,END)
- displayProblem()
+ displayProblem() # Deletes the user entry and displays next problem
 
  if difficultymode =="easy":
   question.config(text=f"{questionc}.  {n1} {operation} {n2}")
  elif difficultymode == "medium":
   question.config(text=f"{questionc}.  {nm1} {operation} {nm2}")
  else:
-  question.config(text=f"{questionc}.  {nh1} {operation} {nh2}")
+  question.config(text=f"{questionc}.  {nh1} {operation} {nh2}") #Displays question count and different random numbers depending on the difficulty
 
 displayProblem()
 displayMenu()
 menu()
 decideOperation()
-
-
 
 root.mainloop()
