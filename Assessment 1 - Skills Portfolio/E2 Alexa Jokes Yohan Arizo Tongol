@@ -1,13 +1,12 @@
 from tkinter import *
 import os
 import random
-import tkinter as tk
 root =Tk()
 root.title("Alexa Jokes")
 root.geometry("500x450")
 root.config(bg="#F5F3EB")
 
-#Progress Semi Final
+#Progress Final
 
 border=Frame(root, bg="black")
 border2=Frame(root, bg="black")
@@ -31,19 +30,19 @@ def jokelist(): #Creates a function which then creates a list of all jokes from 
 
 jokes = jokelist()
 j =""
-p =""
+p ="" #Creates variables to display jokes and punchlines
 
 #display jokes, punchline and buttons here
 def jokedisplay(): #holds variables with the random jokes to display and resets punchline
     global j, p
-    j,p=random.choice(jokes)
-    jokeloc.config(text=f"Alexa: {j}",bg="#D8D8D8")
+    j,p=random.choice(jokes)# collects random jokes and punclines from the created list from the file
+    jokeloc.config(text=f"Alexa: {j}",bg="#D8D8D8")#Displays the joke on screen
     punchlineloc.config(text="")
-    jokesresponse.config(text="Alexa Tell Me a Joke. :You")
+    jokesresponse.config(text="Alexa Tell Me a Joke. :You") #changes user response text
     jokesresponse.place(x=300)
    
 
-def punchlinedisplay():#button for displaying punchline
+def punchlinedisplay():#button for displaying punchline in the punchline location
     punchlineloc.config(text=f"Alexa:{p}",bg="#D8D8D8")
     jokesresponse.config(text="Now The Punchline. :You")
     jokesresponse.place(x=310)
